@@ -1,2 +1,2 @@
-# dl
-An alternative to cd command
+# d
+A better alternative to cd command
