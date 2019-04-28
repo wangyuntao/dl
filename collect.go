@@ -9,13 +9,14 @@ import (
 )
 
 func (d *dl) collect() error {
-	dir, err := dir()
+	cfg, err := loadCfg()
 	if err != nil {
 		return err
 	}
-	dirs := make([]string, 0, 256)
+	d.cfg = cfg
 
-	err = filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+	dirs := make([]string, 0, 256)
+	err = filepath.Walk(cfg.dir, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}

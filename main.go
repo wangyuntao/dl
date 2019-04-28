@@ -7,15 +7,13 @@ import (
 	"github.com/wangyuntao/term"
 )
 
-var (
-	sdir string // TODO
-)
-
 func main() {
 	flag.Parse()
-	err := term.Do(newDl().loop)
+
+	dl := newDl()
+	err := term.Do(dl.loop)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(sdir)
+	fmt.Println(dl.s)
 }

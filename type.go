@@ -1,16 +1,22 @@
 package main
 
 type dl struct {
+	cfg *cfg
+
+	// original list of dirs
 	dirs []string
 
 	// filter & select
-	fds []*fd // filtered dirs
-	fdi int   // selected idx of filtered dir
+	fds []*fd
+	fdi int
 
 	// input
 	rs     []rune
 	rsl    int
 	cursor int
+
+	// result
+	s string
 }
 
 type fd struct {
