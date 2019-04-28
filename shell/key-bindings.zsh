@@ -26,6 +26,6 @@ dl-cd-widget() {
   return $ret
 }
 zle     -N    dl-cd-widget
-bindkey '\ec' dl-cd-widget
+bindkey '\et' dl-cd-widget
 
 fi

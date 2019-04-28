@@ -29,7 +29,15 @@ func (d *dl) current() string {
 	if l == 0 {
 		return ""
 	}
-
 	fd := d.fds[d.fdi]
+	return d.dirs[fd.i]
+}
+
+func (d *dl) get(i int) string {
+	l := len(d.fds)
+	if i < 0 || i >= l {
+		return ""
+	}
+	fd := d.fds[i]
 	return d.dirs[fd.i]
 }

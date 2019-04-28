@@ -46,12 +46,16 @@ func (d *dl) refresh() error {
 	}
 
 	// dirs
+	id := 0
+	printID := i2-i1 <= 10
+
 	for i := i1; i < i2; i++ {
 		fd := d.fds[i]
-		err := d.printDir(fd, i == d.fdi)
+		err := d.printDir(fd, i == d.fdi, id, printID)
 		if err != nil {
 			return err
 		}
+		id++
 	}
 
 	// status

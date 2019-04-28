@@ -5,11 +5,11 @@ import (
 	"github.com/wangyuntao/terminfo"
 )
 
-func (d *dl) printDir(fd *fd, selected bool) error {
+func (d *dl) printDir(fd *fd, selected bool, id int, markID bool) error {
 	dir := d.dirs[fd.i]
 
-	if selected {
-		term.Print("  ")
+	if markID {
+		term.Print(id, " ")
 	} else {
 		term.Print("  ")
 	}

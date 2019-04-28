@@ -32,23 +32,35 @@ func (d *dl) loop() error {
 				d.cursorEol()
 			case term.KeyCtrlA:
 				d.cursorBol()
+
 			case term.KeyBackspace:
 				d.runeDelB()
 			case term.KeyCtrlD:
 				d.runeDelF()
 			case term.KeyCtrlK:
 				d.runeDelEol()
+
 			case term.KeyCtrlP:
 				d.prev()
 			case term.KeyCtrlN:
 				d.next()
+
 			case term.KeyEnter:
 				sdir = d.current()
 				return nil
-
 			}
+
 		case term.Rune:
 			d.runeAdd(v)
+
+		case term.AltRune:
+			r := rune(v)
+			switch {
+			case r >= '0' && r <= '9':
+				sdir = d.get(int(r - '0'))
+				return nil
+			}
+
 		}
 	}
 }
