@@ -59,8 +59,11 @@ func (d *dl) loop() error {
 			case r >= '0' && r <= '9':
 				sdir = d.get(int(r - '0'))
 				return nil
-			}
+			case r >= 'a' && r <= 'z':
+				sdir = d.get(int(r-'a') + 10)
+				return nil
 
+			}
 		}
 	}
 }

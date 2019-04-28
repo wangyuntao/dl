@@ -5,16 +5,29 @@ import (
 	"github.com/wangyuntao/terminfo"
 )
 
-func (d *dl) printDir(fd *fd, selected bool, id int, markID bool) error {
+func (d *dl) printDir(fd *fd, selected bool, id rune, printID bool) error {
+	ti := term.Terminfo()
 	dir := d.dirs[fd.i]
 
-	if markID {
-		term.Print(id, " ")
-	} else {
-		term.Print("  ")
-	}
+	if printID {
+		color := terminfo.ColorDefault
 
-	ti := term.Terminfo()
+		maxColor, ok := ti.GetNum(terminfo.MaxColors)
+		if ok && maxColor >= 256 {
+			color = int(id) + 21
+		}
+
+		err := ti.Text().ColorFg(color).Printf("%c ", id)
+		if err != nil {
+			return err
+		}
+		//		term.Print(id, " ")
+	} else {
+		err := term.Print("  ")
+		if err != nil {
+			return err
+		}
+	}
 
 	i0 := 0
 	for i := 0; i < len(fd.mis); i++ {

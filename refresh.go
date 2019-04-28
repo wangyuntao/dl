@@ -46,8 +46,8 @@ func (d *dl) refresh() error {
 	}
 
 	// dirs
-	id := 0
-	printID := i2-i1 <= 10
+	id := '0'
+	printID := i2-i1 <= 10+26
 
 	for i := i1; i < i2; i++ {
 		fd := d.fds[i]
@@ -55,7 +55,12 @@ func (d *dl) refresh() error {
 		if err != nil {
 			return err
 		}
-		id++
+
+		if id == '9' {
+			id = 'a'
+		} else {
+			id++
+		}
 	}
 
 	// status
