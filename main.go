@@ -7,6 +7,12 @@ import (
 	"github.com/wangyuntao/term"
 )
 
+var parentDir bool
+
+func init() {
+	flag.BoolVar(&parentDir, "p", false, "search parent directories")
+}
+
 func main() {
 	flag.Parse()
 

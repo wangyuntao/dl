@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"os"
 	"path/filepath"
 	"sort"
@@ -15,44 +14,48 @@ func (d *dl) collect() error {
 	}
 	d.cfg = cfg
 
-	dirs := make([]string, 0, 256)
-	err = filepath.Walk(cfg.dir, func(path string, info os.FileInfo, err error) error {
+	var dirs []string
+	if !parentDir {
+		dirs = make([]string, 0, 64)
+		err = filepath.Walk(cfg.dir, func(path string, info os.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
+
+			if !info.IsDir() {
+				return nil
+			}
+
+			if strings.HasPrefix(info.Name(), ".") {
+				return filepath.SkipDir
+			}
+
+			dirs = append(dirs, path)
+			return nil
+		})
+
 		if err != nil {
 			return err
 		}
 
-		if !info.IsDir() {
-			return nil
+	} else {
+		dirs = make([]string, 0, 8)
+		dir, err := os.Getwd()
+		if err != nil {
+			return err
 		}
 
-		if strings.HasPrefix(info.Name(), ".") {
-			return filepath.SkipDir
+		for dir != "" {
+			dirs = append(dirs, dir)
+			if dir == "/" {
+				break
+			}
+			dir = filepath.Dir(dir)
 		}
-
-		dirs = append(dirs, path)
-		return nil
-	})
-
-	if err != nil {
-		return err
 	}
-	sort.Strings(dirs)
 
+	sort.Strings(dirs)
 	d.dirs = dirs
 	d.rsl = -1 // refresh immediately
 	return nil
-}
-
-func dir() (string, error) {
-	dir := flag.Arg(0)
-	if dir != "" {
-		return dir, nil
-	}
-
-	dir = os.Getenv("DL_DIR")
-	if dir != "" {
-		return dir, nil
-	}
-
-	return os.UserHomeDir()
 }
